@@ -8,11 +8,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])
-->resource('usuario',UsuarioController::class)
-->names('usuario');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
 
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])
-->group(function () {Route::get('/dashboard', function () {return view('dashboard');})
-->name('dashboard');
+    // Ruta del dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Rutas de usuario (index, create, store, edit, update, destroy, etc.)
+    Route::resource('usuario', UsuarioController::class)->names('usuario');
 });

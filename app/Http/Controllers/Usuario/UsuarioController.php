@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Usuario;
 
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
+use App\Models\Role;
+
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -22,7 +24,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('usuario.create');
     }
 
     /**
@@ -30,7 +32,26 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'NOMBRE' => 'required|string|max:100',
+        'EMAIL' => 'required|email|unique:usuario,EMAIL',
+        'CONTRASENA' => 'required|string|min:6',
+        'CATEGORIA' => 'required|string',
+        'FECHA_NACIMIENTO' => 'required|date',
+        'ROLES_FK' => 'required|integer|exists:roles,ID_ROL', // valida que exista el rol
+        ]);
+
+        $usuario = Usuario::create([
+            'NOMBRE' => $request->NOMBRE,
+            'EMAIL' => $request->EMAIL,
+            'CONTRASENA' => bcrypt($request->CONTRASENA), //encriptada
+            'CATEGORIA' => $request->CATEGORIA,
+            'FECHA_NACIMIENTO' => $request->FECHA_NACIMIENTO,
+            'ESTATUS' => 'ACTIVO', // valor predefinido, primera creacion, obviamente ACTIVO
+            'ROLES_FK' => $request->ROLES_FK, // Rol defininido en el formulario
+        ]);
+
+        return redirect()->route('usuario.index')->with('success', 'Usuario creado correctamente.');
     }
 
     /**
