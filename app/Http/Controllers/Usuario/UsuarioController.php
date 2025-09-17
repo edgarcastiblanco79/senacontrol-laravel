@@ -67,22 +67,50 @@ class UsuarioController extends Controller
      */
     public function edit(Usuario $usuario)
     {
-        //
+        return view('usuario.edit', compact('usuario'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Usuario $usuario)
+   public function update(Request $request, Usuario $usuario)
     {
-        //
+        // Validar los campos
+        $request->validate([
+            'NOMBRE' => 'required|string|max:255',
+            'EMAIL' => 'required|email|max:255',
+            'FECHA_NACIMIENTO' => 'required|date',
+            'CATEGORIA' => 'required|string',
+            'ROLES_FK' => 'required|integer',
+        ]);
+
+        // Actualizar datos
+        $usuario->NOMBRE = $request->NOMBRE;
+        $usuario->EMAIL = $request->EMAIL;
+
+        // Solo actualizar contraseña si viene
+        if (!empty($request->CONTRASENA)) {
+            $usuario->CONTRASENA = bcrypt($request->CONTRASENA);
+        }
+
+        $usuario->CATEGORIA = $request->CATEGORIA;
+        $usuario->FECHA_NACIMIENTO = $request->FECHA_NACIMIENTO;
+        $usuario->ROLES_FK = $request->ROLES_FK;
+
+        $usuario->save();
+
+        // Redirigir al index con mensaje
+        return redirect()->route('usuario.index')->with('success', 'Usuario actualizado correctamente');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Usuario $usuario)
     {
-        //
+        $usuario->delete();
+
+        return redirect()->route('usuario.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }

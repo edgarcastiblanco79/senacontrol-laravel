@@ -34,6 +34,9 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     Estatus
                                 </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                                    Acciones
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -56,6 +59,33 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $usu->ESTATUS }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2">
+                                        <!-- Botón Editar -->
+                                        <a href="{{ route('usuario.edit', $usu->ID_USUARIO) }}"
+                                        class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
+                                            <!-- Icono lápiz -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L7.5 21H3v-4.5L16.732 3.732z" />
+                                            </svg>
+                                            Editar
+                                        </a>
+
+                                        <!-- Botón Eliminar -->
+                                        <form action="{{ route('usuario.destroy', $usu->ID_USUARIO) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700">
+                                                <!-- Icono basurero -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4" />
+                                                </svg>
+                                                Eliminar
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
