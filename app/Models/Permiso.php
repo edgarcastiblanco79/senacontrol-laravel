@@ -13,10 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Permiso
  * 
- * @property int $ID_PERMISO
- * @property string|null $TIPO_DE_PERMISO
- * @property Carbon|null $FECHA_ALTA
- * @property Carbon|null $FECHA_CADUCIDAD
+ * @property int $id_permiso
+ * @property string $tipo_de_permiso
+ * @property Carbon $fecha_inicio
+ * @property Carbon $fecha_caducidad
  * 
  * @property Collection|Role[] $roles
  *
@@ -25,22 +25,22 @@ use Illuminate\Database\Eloquent\Model;
 class Permiso extends Model
 {
 	protected $table = 'permisos';
-	protected $primaryKey = 'ID_PERMISO';
+	protected $primaryKey = 'id_permiso';
 	public $timestamps = false;
 
 	protected $casts = [
-		'FECHA_ALTA' => 'datetime',
-		'FECHA_CADUCIDAD' => 'datetime'
+		'fecha_inicio' => 'datetime',
+		'fecha_caducidad' => 'datetime'
 	];
 
 	protected $fillable = [
-		'TIPO_DE_PERMISO',
-		'FECHA_ALTA',
-		'FECHA_CADUCIDAD'
+		'tipo_de_permiso',
+		'fecha_inicio',
+		'fecha_caducidad'
 	];
 
 	public function roles()
 	{
-		return $this->hasMany(Role::class, 'ID_PERMISO_FK');
+		return $this->hasMany(Role::class, 'id_permiso');
 	}
 }

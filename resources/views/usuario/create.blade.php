@@ -10,113 +10,130 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-6">Nuevo Usuario</h1>
 
-                <form action="{{ route('usuario.store') }}" method="POST" class="max-w-md mx-auto">
+                {{-- Mostrar errores de validación --}}
+                @if ($errors->any())
+                    <div class="mb-6 rounded border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                        <ul class="list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('usuario.store') }}" method="POST" class="space-y-6">
                     @csrf
 
-                    <!-- Nombre -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="text" name="NOMBRE" id="NOMBRE"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="NOMBRE"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Nombre
-                        </label>
+                    {{-- Nombre --}}
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                        <input type="text" id="nombre" name="nombre"
+                               value="{{ old('nombre') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               required>
                     </div>
 
-                    <!-- Email -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="email" name="EMAIL" id="EMAIL"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="EMAIL"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Email
-                        </label>
+                    {{-- Apellido --}}
+                    <div>
+                        <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                        <input type="text" id="apellido" name="apellido"
+                               value="{{ old('apellido') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
 
-                    <!-- Contraseña -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="password" name="CONTRASENA" id="CONTRASENA"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="CONTRASENA"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Contraseña
-                        </label>
+                    {{-- Email --}}
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email"
+                               value="{{ old('email') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               required>
                     </div>
 
-                    <!-- Categoría -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <select name="CATEGORIA" id="CATEGORIA"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                                border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-                            <option value="COMPUTADOR">Computador</option>
-                            <option value="VEHICULO">Vehiculo</option>
-                            <option value="MOTO">Moto</option>
+                    {{-- Contraseña --}}
+                    <div>
+                        <label for="contrasena" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" id="contrasena" name="contrasena"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               required>
+                    </div>
+
+                    {{-- Fecha de Nacimiento --}}
+                    <div>
+                        <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
+                               value="{{ old('fecha_nacimiento') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+
+                    {{-- Tipo Documento --}}
+                    <div>
+                        <label for="tipo_documento" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+                        <select id="tipo_documento" name="tipo_documento"
+                                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">— Seleccione —</option>
+                            <option value="CC" {{ old('tipo_documento') == 'CC' ? 'selected' : '' }}>Cédula</option>
+                            <option value="TI" {{ old('tipo_documento') == 'TI' ? 'selected' : '' }}>Tarjeta de Identidad</option>
+                            <option value="CE" {{ old('tipo_documento') == 'CE' ? 'selected' : '' }}>Cédula Extranjera</option>
+                            <option value="PAS" {{ old('tipo_documento') == 'PAS' ? 'selected' : '' }}>Pasaporte</option>
                         </select>
-                        <label for="CATEGORIA"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Categoría
-                        </label>
                     </div>
 
-                    <!-- Fecha de Nacimiento -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="date" name="FECHA_NACIMIENTO" id="FECHA_NACIMIENTO"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="FECHA_NACIMIENTO"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Fecha de Nacimiento
-                        </label>
+                    {{-- Número de Documento --}}
+                    <div>
+                        <label for="numero_documento" class="block text-sm font-medium text-gray-700">Número de Documento</label>
+                        <input type="text" id="numero_documento" name="numero_documento"
+                               value="{{ old('numero_documento') }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
 
-                    <!-- Rol -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <select name="ROLES_FK" id="ROLES_FK"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                                border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-                            <option value="">-- Seleccione un Rol --</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Instructor</option>
-                            <option value="3">Estudiante</option>
-                            <option value="4">Otros</option>
+                    {{-- Género --}}
+                    <div>
+                        <label for="genero" class="block text-sm font-medium text-gray-700">Género</label>
+                        <select id="genero" name="genero"
+                                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">— Seleccione un Genero —</option>
+                            <option value="Masculino" {{ old('genero') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
+                            <option value="Femenino" {{ old('genero') == 'Femenino' ? 'selected' : '' }}>Femenino</option>
+                            <option value="Otro" {{ old('genero') == 'Otro' ? 'selected' : '' }}>Otro</option>
                         </select>
-                        <label for="ROLES_FK"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Rol
-                        </label>
                     </div>
 
-                    <!-- Botón Guardar -->
-                    <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-                            focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                        Guardar
-                    </button>
+                    {{-- Rol --}}
+                    <div class="mb-4">
+                        <label for="id_rol" class="block text-sm font-medium text-gray-700">Rol</label>
+                        <select id="id_rol" name="id_rol"
+                                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm 
+                                    focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">— Seleccione un Rol —</option>
+                            <option value="1" {{ old('id_rol', $usuario->id_rol ?? '') == 1 ? 'selected' : '' }}>Administrador</option>
+                            <option value="2" {{ old('id_rol', $usuario->id_rol ?? '') == 2 ? 'selected' : '' }}>Instructor</option>
+                            <option value="3" {{ old('id_rol', $usuario->id_rol ?? '') == 3 ? 'selected' : '' }}>Estudiante</option>
+                        </select>
+                    </div>
+
+                    {{-- Estatus --}}
+                    <div>
+                        <label for="estatus" class="block text-sm font-medium text-gray-700">Estatus</label>
+                        <select id="estatus" name="estatus"
+                                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="Activo" {{ old('estatus') == 'Activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="Inactivo" {{ old('estatus') == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+                        </select>
+                    </div>
+
+                    {{-- Botones --}}
+                    <div class="flex items-center gap-3">
+                        <button type="submit"
+                                class="inline-flex items-center rounded bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Guardar
+                        </button>
+
+                        <a href="{{ route('usuario.index') }}"
+                           class="inline-flex items-center rounded border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Cancelar
+                        </a>
+                    </div>
                 </form>
 
             </div>

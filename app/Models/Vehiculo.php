@@ -10,14 +10,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Equipo
+ * Class Vehiculo
  * 
- * @property int $id_dispositivo
- * @property string $numero_serie
- * @property string|null $marca
- * @property string|null $referencia
- * @property string|null $color
+ * @property int $id_vehiculo
+ * @property string|null $numero_chasis
+ * @property string|null $placa
  * @property string|null $tipo
+ * @property string|null $marca
+ * @property string|null $modelo
+ * @property string|null $color
  * @property int|null $id_usuario
  * 
  * @property Usuario|null $usuario
@@ -25,10 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Equipo extends Model
+class Vehiculo extends Model
 {
-	protected $table = 'equipos';
-	protected $primaryKey = 'id_dispositivo';
+	protected $table = 'vehiculos';
+	protected $primaryKey = 'id_vehiculo';
 	public $timestamps = false;
 
 	protected $casts = [
@@ -36,11 +37,12 @@ class Equipo extends Model
 	];
 
 	protected $fillable = [
-		'numero_serie',
-		'marca',
-		'referencia',
-		'color',
+		'numero_chasis',
+		'placa',
 		'tipo',
+		'marca',
+		'modelo',
+		'color',
 		'id_usuario'
 	];
 
@@ -51,6 +53,6 @@ class Equipo extends Model
 
 	public function movimientos()
 	{
-		return $this->hasMany(Movimiento::class, 'id_equipo');
+		return $this->hasMany(Movimiento::class, 'id_vehiculo');
 	}
 }

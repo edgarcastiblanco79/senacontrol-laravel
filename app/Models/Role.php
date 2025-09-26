@@ -13,10 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Role
  * 
- * @property int $ID_ROL
- * @property int|null $ID_PERMISO_FK
- * @property Carbon|null $FECHA_INICIO
- * @property Carbon|null $FECHA_CADUCIDAD
+ * @property int $id_rol
+ * @property Carbon $fecha_inicio
+ * @property Carbon $fecha_caducidad
+ * @property int|null $id_permiso
  * 
  * @property Permiso|null $permiso
  * @property Collection|Usuario[] $usuarios
@@ -26,28 +26,28 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
 	protected $table = 'roles';
-	protected $primaryKey = 'ID_ROL';
+	protected $primaryKey = 'id_rol';
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_PERMISO_FK' => 'int',
-		'FECHA_INICIO' => 'datetime',
-		'FECHA_CADUCIDAD' => 'datetime'
+		'fecha_inicio' => 'datetime',
+		'fecha_caducidad' => 'datetime',
+		'id_permiso' => 'int'
 	];
 
 	protected $fillable = [
-		'ID_PERMISO_FK',
-		'FECHA_INICIO',
-		'FECHA_CADUCIDAD'
+		'fecha_inicio',
+		'fecha_caducidad',
+		'id_permiso'
 	];
 
 	public function permiso()
 	{
-		return $this->belongsTo(Permiso::class, 'ID_PERMISO_FK');
+		return $this->belongsTo(Permiso::class, 'id_permiso');
 	}
 
 	public function usuarios()
 	{
-		return $this->hasMany(Usuario::class, 'ROLES_FK');
+		return $this->hasMany(Usuario::class, 'id_rol');
 	}
 }

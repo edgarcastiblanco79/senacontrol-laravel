@@ -6,13 +6,19 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Reporte
  * 
- * @property int $ID_REPORTES
- * @property int|null $ID_INGRESO_SALIDA
+ * @property int $id_reporte
+ * @property int|null $id_ingreso_salida
+ * @property Carbon|null $fecha_generacion
+ * @property string|null $tipo_reportes
+ * @property string|null $rango_fechas
+ * @property string|null $contenido
+ * @property string|null $archivo_url
  * 
  * @property IngresoSalida|null $ingreso_salida
  *
@@ -21,19 +27,25 @@ use Illuminate\Database\Eloquent\Model;
 class Reporte extends Model
 {
 	protected $table = 'reportes';
-	protected $primaryKey = 'ID_REPORTES';
+	protected $primaryKey = 'id_reporte';
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_INGRESO_SALIDA' => 'int'
+		'id_ingreso_salida' => 'int',
+		'fecha_generacion' => 'datetime'
 	];
 
 	protected $fillable = [
-		'ID_INGRESO_SALIDA'
+		'id_ingreso_salida',
+		'fecha_generacion',
+		'tipo_reportes',
+		'rango_fechas',
+		'contenido',
+		'archivo_url'
 	];
 
 	public function ingreso_salida()
 	{
-		return $this->belongsTo(IngresoSalida::class, 'ID_INGRESO_SALIDA');
+		return $this->belongsTo(IngresoSalida::class, 'id_ingreso_salida');
 	}
 }

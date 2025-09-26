@@ -13,13 +13,16 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class IngresoSalida
  * 
- * @property int $ID_INGRESO_SALIDA
- * @property int|null $ID_PERFIL_FK
- * @property Carbon|null $FECHA
- * @property Carbon|null $HORA_INGRESO
- * @property Carbon|null $HORA_SALIDA
+ * @property int $id_ingreso_salida
+ * @property Carbon $fecha
+ * @property Carbon $hora_ingreso
+ * @property Carbon|null $hora_salida
+ * @property string|null $tipo_movimiento
+ * @property string|null $metodo_validacion
+ * @property string|null $observaciones
+ * @property string|null $estado
  * 
- * @property Perfil|null $perfil
+ * @property Collection|Movimiento[] $movimientos
  * @property Collection|Reporte[] $reportes
  *
  * @package App\Models
@@ -27,30 +30,32 @@ use Illuminate\Database\Eloquent\Model;
 class IngresoSalida extends Model
 {
 	protected $table = 'ingreso_salida';
-	protected $primaryKey = 'ID_INGRESO_SALIDA';
+	protected $primaryKey = 'id_ingreso_salida';
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_PERFIL_FK' => 'int',
-		'FECHA' => 'datetime',
-		'HORA_INGRESO' => 'datetime',
-		'HORA_SALIDA' => 'datetime'
+		'fecha' => 'datetime',
+		'hora_ingreso' => 'datetime',
+		'hora_salida' => 'datetime'
 	];
 
 	protected $fillable = [
-		'ID_PERFIL_FK',
-		'FECHA',
-		'HORA_INGRESO',
-		'HORA_SALIDA'
+		'fecha',
+		'hora_ingreso',
+		'hora_salida',
+		'tipo_movimiento',
+		'metodo_validacion',
+		'observaciones',
+		'estado'
 	];
 
-	public function perfil()
+	public function movimientos()
 	{
-		return $this->belongsTo(Perfil::class, 'ID_PERFIL_FK');
+		return $this->hasMany(Movimiento::class, 'id_ingreso_salida');
 	}
 
 	public function reportes()
 	{
-		return $this->hasMany(Reporte::class, 'ID_INGRESO_SALIDA');
+		return $this->hasMany(Reporte::class, 'id_ingreso_salida');
 	}
 }

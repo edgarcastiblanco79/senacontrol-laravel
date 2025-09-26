@@ -1,0 +1,6 @@
+projectKey=PhpLaravel
+serverUrl=http://localhost:9000
+serverVersion=25.9.0.112764
+dashboardUrl=http://localhost:9000/dashboard?id=PhpLaravel
+ceTaskId=ddd63be3-f70f-47ee-b76d-a7af9a4cb02c
+ceTaskUrl=http://localhost:9000/api/ce/task?id=ddd63be3-f70f-47ee-b76d-a7af9a4cb02c

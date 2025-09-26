@@ -10,114 +10,103 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h1 class="text-2xl font-bold mb-6">Editar Usuario</h1>
 
-                <form action="{{ route('usuario.update', $usuario->ID_USUARIO) }}" method="POST" class="max-w-md mx-auto">
+                {{-- Errores de validación --}}
+                @if ($errors->any())
+                    <div class="mb-6 rounded border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                        <ul class="list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('usuario.update', $usuario->id_usuario) }}" method="POST" class="space-y-6">
                     @csrf
                     @method('PUT')
 
-                    <!-- Nombre -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="text" name="NOMBRE" id="NOMBRE" 
-                               value="{{ old('NOMBRE', $usuario->NOMBRE) }}"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="NOMBRE"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Nombre
-                        </label>
+                    {{-- Nombre --}}
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                        <input type="text" id="nombre" name="nombre"
+                               value="{{ old('nombre', $usuario->nombre) }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               required>
                     </div>
 
-                    <!-- Email -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="email" name="EMAIL" id="EMAIL" 
-                               value="{{ old('EMAIL', $usuario->EMAIL) }}"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required />
-                        <label for="EMAIL"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Email
-                        </label>
+                    {{-- Apellido (si existe en tu tabla) --}}
+                    <div>
+                        <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                        <input type="text" id="apellido" name="apellido"
+                               value="{{ old('apellido', $usuario->apellido) }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
 
-                    <!-- Contraseña (opcional) -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="password" name="CONTRASENA" id="CONTRASENA"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                               border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " />
-                        <label for="CONTRASENA"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                               -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                               peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                               peer-focus:scale-75 peer-focus:-translate-y-6">
+                    {{-- Email --}}
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email"
+                               value="{{ old('email', $usuario->email) }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               required>
+                    </div>
+
+                    {{-- Contraseña (opcional) --}}
+                    <div>
+                        <label for="contrasena" class="block text-sm font-medium text-gray-700">
                             Contraseña (déjala en blanco si no deseas cambiarla)
                         </label>
+                        <input type="password" id="contrasena" name="contrasena"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
 
-                    <!-- Categoría -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <select name="CATEGORIA" id="CATEGORIA"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                                border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-                            <option value="COMPUTADOR" {{ $usuario->CATEGORIA == 'COMPUTADOR' ? 'selected' : '' }}>Computador</option>
-                            <option value="VEHICULO" {{ $usuario->CATEGORIA == 'VEHICULO' ? 'selected' : '' }}>Vehiculo</option>
-                            <option value="MOTO" {{ $usuario->CATEGORIA == 'MOTO' ? 'selected' : '' }}>Moto</option>
+                    {{-- Fecha de nacimiento --}}
+                    <div>
+                        <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
+                               value="{{ old('fecha_nacimiento', optional($usuario->fecha_nacimiento)->format('Y-m-d')) }}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+
+                    {{-- Rol (opcional) --}}
+                    <div>
+                    <label for="id_rol" class="block text-sm font-medium text-gray-700">Rol</label>
+                    <select id="id_rol" name="id_rol"
+                            class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">— Sin rol —</option>
+                        <option value="1" {{ (string)old('id_rol', $usuario->id_rol) === '1' ? 'selected' : '' }}>Administrador</option>
+                        <option value="2" {{ (string)old('id_rol', $usuario->id_rol) === '2' ? 'selected' : '' }}>Instructor</option>
+                        <option value="3" {{ (string)old('id_rol', $usuario->id_rol) === '3' ? 'selected' : '' }}>Estudiante</option>
+                    </select>
+                    </div>
+
+                    {{-- Estatus (opcional) --}}
+                    <div class="mb-4">
+                        <label for="estatus" class="block text-sm font-medium text-gray-700">Estatus</label>
+                        @php
+                            // Normaliza el valor actual: capitaliza la primera letra y el resto en minúsculas
+                            $estatusActual = ucfirst(strtolower(old('estatus', $usuario->estatus ?? '')));
+                        @endphp
+                        <select id="estatus" name="estatus"
+                                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">— Seleccione —</option>
+                            <option value="Activo"   {{ $estatusActual === 'Activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="Inactivo" {{ $estatusActual === 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
                         </select>
-                        <label for="CATEGORIA"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
-                               peer-focus:text-blue-600">
-                            Categoría
-                        </label>
                     </div>
 
-                    <!-- Fecha de Nacimiento -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input type="date" name="FECHA_NACIMIENTO" id="FECHA_NACIMIENTO" 
-                            value="{{ old('FECHA_NACIMIENTO', \Carbon\Carbon::parse($usuario->FECHA_NACIMIENTO)->format('Y-m-d')) }}"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                            border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " required />
-                        <label for="FECHA_NACIMIENTO"
-                            class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform 
-                            -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 
-                            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
-                            peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Fecha de Nacimiento
-                        </label>
+                    <div class="flex items-center gap-3">
+                        <button type="submit"
+                                class="inline-flex items-center rounded bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            Actualizar
+                        </button>
+
+                        {{-- Botón Cancelar --}}
+                        <a href="{{ route('usuario.index') }}"
+                           class="inline-flex items-center rounded border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Cancelar
+                        </a>
                     </div>
-
-
-                    <!-- Rol -->
-                    <div class="relative z-0 w-full mb-5 group">
-                        <select name="ROLES_FK" id="ROLES_FK"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                                border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-                            <option value="">-- Seleccione un Rol --</option>
-                            <option value="1" {{ $usuario->ROLES_FK == 1 ? 'selected' : '' }}>Administrador</option>
-                            <option value="2" {{ $usuario->ROLES_FK == 2 ? 'selected' : '' }}>Estudiante</option>
-                            <option value="3" {{ $usuario->ROLES_FK == 3 ? 'selected' : '' }}>Instructor</option>
-                            <option value="4" {{ $usuario->ROLES_FK == 4 ? 'selected' : '' }}>Otros</option>
-                        </select>
-                        <label for="ROLES_FK"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
-                               peer-focus:text-blue-600">
-                            Rol
-                        </label>
-                    </div>
-
-                    <!-- Botón Actualizar -->
-                    <button type="submit"
-                            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none 
-                            focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                        Actualizar
-                    </button>
                 </form>
 
             </div>
